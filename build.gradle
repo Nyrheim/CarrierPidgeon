@@ -1,0 +1,139 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.3.72"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "maven-publish"
+}
+
+group 'net.nyrheim'
+version '1.0.0-SNAPSHOT'
+
+def githubUsername = ""
+def githubToken = ""
+def githubPropertiesFile = new File(project.projectDir, "github.properties")
+if (githubPropertiesFile.exists()) {
+    def githubProperties = new Properties()
+    githubProperties.load(new FileInputStream(githubPropertiesFile))
+    githubUsername = githubProperties.get("github-username")
+    githubToken = githubProperties.get("github-token")
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" }
+    maven { url "https://repo.rpkit.com/repository/maven-public/" }
+    maven {
+        url "https://maven.pkg.github.com/Nyrheim/PenAndPaper"
+        credentials {
+            username githubUsername
+            password githubToken
+        }
+    }
+    maven {
+        url "https://maven.pkg.github.com/Nyrheim/BricksAndMortar"
+        credentials {
+            username githubUsername
+            password githubToken
+        }
+    }
+}
+
+dependencies {
+    implementation group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8"
+    implementation group: "org.jetbrains.kotlin", name: "kotlin-reflect", version: "1.3.72"
+    implementation group: "org.http4k", name: "http4k-core", version: "3.249.0"
+    implementation group: "org.http4k", name: "http4k-server-jetty", version: "3.249.0"
+    implementation group: "org.http4k", name: "http4k-format-gson", version: "3.249.0"
+    implementation group: "org.slf4j", name: "slf4j-jdk14", version: "1.7.30"
+    implementation group: "org.spigotmc", name: "spigot-api", version: "1.14.4-R0.1-SNAPSHOT"
+    implementation group: "net.nyrheim", name: "PenAndPaper", version: "1.1.1"
+    implementation group: "net.nyrheim", name: "BricksAndMortar", version: "1.0.0"
+    implementation group: "com.rpkit", name: "rpk-core", version: "1.9.0"
+    implementation group: "com.rpkit", name: "rpk-core-bukkit", version: "1.9.0"
+    implementation group: "io.jsonwebtoken", name: "jjwt-api", version: "0.11.1"
+    implementation group: "io.jsonwebtoken", name: "jjwt-impl", version: "0.11.1"
+    implementation group: "io.jsonwebtoken", name: "jjwt-gson", version: "0.11.1"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "version": version
+    ]
+}
+
+shadowJar {
+    dependencies {
+        include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk8"))
+        include(dependency("org.jetbrains.kotlin:kotlin-stdlib-jdk7"))
+        include(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+        include(dependency("org.jetbrains.kotlin:kotlin-stdlib-common"))
+        include(dependency("org.jetbrains:annotations"))
+        include(dependency("org.jetbrains.kotlin:kotlin-reflect"))
+        include(dependency("org.http4k:http4k-core"))
+        include(dependency("org.http4k:http4k-format-gson"))
+        include(dependency("com.google.code.gson:gson"))
+        include(dependency("org.http4k:http4k-server-jetty"))
+        include(dependency("javax.servlet:javax-servlet-api"))
+        include(dependency("org.eclipse.jetty.websocket:javax-websocket-server-impl"))
+        include(dependency("javax.websocket:javax.websocket-api"))
+        include(dependency("org.eclipse.jetty.websocket:websocket-client-impl"))
+        include(dependency("javax.websocket:javax.websocket-client-api"))
+        include(dependency("org.eclipse.jetty.websocket:websocket-client"))
+        include(dependency("org.eclipse.jetty.websocket:websocket-common"))
+        include(dependency("org.eclipse.jetty.websocket:websocket-api"))
+        include(dependency("org.eclipse.jetty:jetty-io"))
+        include(dependency("org.eclipse.jetty:jetty-util"))
+        include(dependency("org.eclipse.jetty:jetty-client"))
+        include(dependency("org.eclipse.jetty:jetty-http"))
+        include(dependency("org.eclipse.jetty:jetty-xml"))
+        include(dependency("org.eclipse.jetty.websocket:websocket-server"))
+        include(dependency("org.eclipse.jetty.websocket:websocket-servlet"))
+        include(dependency("javax.servlet:javax.servlet-api"))
+        include(dependency("org.eclipse.jetty:jetty-annotations"))
+        include(dependency("javax.annotation:javax.annotation-api"))
+        include(dependency("org.eclipse.jetty:jetty-plus"))
+        include(dependency("org.eclipse.jetty:jetty-jndi"))
+        include(dependency("org.eclipse.jetty:jetty-webapp"))
+        include(dependency("org.eclipse.jetty:jetty-servlet"))
+        include(dependency("org.ow2.asm:asm-commons"))
+        include(dependency("org.ow2.asm:asm-analysis"))
+        include(dependency("org.ow2.asm:asm-tree"))
+        include(dependency("org.ow2.asm:asm"))
+        include(dependency("org.eclipse.jetty:jetty-server"))
+        include(dependency("org.eclipse.jetty:jetty-security"))
+        include(dependency("org.slf4j:slf4j-jdk14"))
+        include(dependency("org.slf4j:slf4j-api"))
+        include(dependency("io.jsonwebtoken:jjwt-api"))
+        include(dependency("io.jsonwebtoken:jjwt-gson"))
+        include(dependency("io.jsonwebtoken:jjwt-impl"))
+    }
+
+    relocate "kotlin", "net.nyrheim.carrierpidgeon.shadow.kotlin"
+    relocate "org.intellij", "net.nyrheim.carrierpidgeon.shadow.org.intellij"
+    relocate "org.jetbrains", "net.nyrheim.carrierpidgeon.shadow.org.jetbrains"
+    relocate "org.http4k", "net.nyrheim.carrierpidgeon.shadow.org.http4k"
+    relocate "com.google", "net.nyrheim.carrierpidgeon.shadow.com.google"
+    relocate "javax.servlet", "net.nyrheim.carrierpidgeon.shadow.javax.servlet"
+    relocate "org.eclipse", "net.nyrheim.carrierpidgeon.shadow.org.eclipse"
+    relocate "javax.annotation", "net.nyrheim.carrierpidgeon.shadow.javax.annotation"
+    relocate "javax.websocket", "net.nyrheim.carrierpidgeon.shadow.javax.websocket"
+    relocate "org.objectweb", "net.nyrheim.carrierpidgeon.shadow.org.objectweb"
+    relocate "org.slf4j", "net.nyrheim.carrierpidgeon.shadow.org.slf4j"
+    relocate "io.jsonwebtoken", "net.nyrheim.carrierpidgeon.shadow.io.jsonwebtoken"
+
+    mergeServiceFiles()
+    minimize {
+        exclude(dependency("io.jsonwebtoken:jjwt-gson"))
+        exclude(dependency("io.jsonwebtoken:jjwt-impl"))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

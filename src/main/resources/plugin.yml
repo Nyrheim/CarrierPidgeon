@@ -1,0 +1,9 @@
+name: CarrierPidgeon
+authors:
+- Ren
+version: @version@
+main: net.nyrheim.carrierpidgeon.CarrierPidgeon
+api-version: 1.14
+depend:
+- PenAndPaper
+- BricksAndMortar
