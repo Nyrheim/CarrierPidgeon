@@ -29,7 +29,7 @@ import org.http4k.routing.path
 
 class CharacterHandler(private val plugin: CarrierPidgeon, private val authenticator: Authenticator) {
 
-    fun get(request: Request) : Response {
+    fun get(request: Request): Response {
         val characterService = Services[PenCharacterService::class]
             ?: return Response(INTERNAL_SERVER_ERROR)
                 .with(ErrorInfo.lens of ErrorInfo("Character service unavailable"))
@@ -43,7 +43,7 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
             .with(CharacterResponse.lens of CharacterResponse(character))
     }
 
-    fun post(request: Request) : Response {
+    fun post(request: Request): Response {
         val playerId = request.playerId(authenticator)
             ?: return Response(FORBIDDEN)
         val penAndPaper = plugin.server.pluginManager.getPlugin("PenAndPaper") as? PenAndPaper
@@ -118,7 +118,7 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
             .with(CharacterResponse.lens of CharacterResponse(character))
     }
 
-    fun put(request: Request) : Response {
+    fun put(request: Request): Response {
         val playerId = request.playerId(authenticator)
             ?: return Response(FORBIDDEN)
         val playerService = Services[PenPlayerService::class]
@@ -191,7 +191,7 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
         return Response(NO_CONTENT)
     }
 
-    fun patch(request: Request) : Response {
+    fun patch(request: Request): Response {
         val playerId = request.playerId(authenticator)
             ?: return Response(FORBIDDEN)
         val playerService = Services[PenPlayerService::class]
