@@ -1,7 +1,7 @@
 package net.nyrheim.carrierpidgeon.api.v1.login
 
 import org.http4k.core.Body
-import org.http4k.format.Gson.auto
+import net.nyrheim.carrierpidgeon.PidgeonGson.auto
 
 data class LoginResponse(val jwt: String) {
     companion object {

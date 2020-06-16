@@ -2,7 +2,7 @@ package net.nyrheim.carrierpidgeon.api.v1.character
 
 import net.nyrheim.penandpaper.ability.Ability
 import org.http4k.core.Body
-import org.http4k.format.Gson.auto
+import net.nyrheim.carrierpidgeon.PidgeonGson.auto
 
 data class CharacterPatchRequest(
     val firstName: String?,

@@ -3,7 +3,7 @@ package net.nyrheim.carrierpidgeon.api.v1.character
 import net.nyrheim.penandpaper.ability.Ability
 import net.nyrheim.penandpaper.character.PenCharacter
 import org.http4k.core.Body
-import org.http4k.format.Gson.auto
+import net.nyrheim.carrierpidgeon.PidgeonGson.auto
 
 data class CharacterResponse(
     val id: Int,
