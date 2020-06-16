@@ -1,5 +1,6 @@
 package net.nyrheim.carrierpidgeon.api.v1.items
 
+import net.nyrheim.penandpaper.dice.Roll
 import net.nyrheim.penandpaper.distance.Distance
 import net.nyrheim.penandpaper.item.weapon.property.WeaponProperty
 
@@ -27,9 +28,9 @@ sealed class WeaponPropertyDTO(
 }
 
 data class Versatile(
-    val twoHandedRoll: String
+    val twoHandedRoll: Roll
 ) : WeaponPropertyDTO("Versatile") {
-    constructor(property: WeaponProperty.Versatile) : this(property.twoHandedRoll.toString())
+    constructor(property: WeaponProperty.Versatile) : this(property.twoHandedRoll)
 }
 
 class TwoHanded : WeaponPropertyDTO("Two-handed")
