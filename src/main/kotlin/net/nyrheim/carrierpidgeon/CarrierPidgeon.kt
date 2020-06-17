@@ -4,6 +4,7 @@ import net.nyrheim.carrierpidgeon.api.v1.character.CharacterHandler
 import net.nyrheim.carrierpidgeon.api.v1.classes.ClassesHandler
 import net.nyrheim.carrierpidgeon.api.v1.items.ItemsHandler
 import net.nyrheim.carrierpidgeon.api.v1.login.LoginHandler
+import net.nyrheim.carrierpidgeon.api.v1.races.RacesHandler
 import net.nyrheim.carrierpidgeon.auth.Authenticated
 import net.nyrheim.carrierpidgeon.auth.Authenticator
 import org.bukkit.plugin.java.JavaPlugin
@@ -24,6 +25,7 @@ class CarrierPidgeon : JavaPlugin() {
         val characterHandler = CharacterHandler(this, authenticator)
         val itemsHandler = ItemsHandler()
         val classesHandler = ClassesHandler()
+        val racesHandler = RacesHandler()
         val routes = routes(
             "/api" bind routes(
                 "/v1" bind routes(
@@ -33,7 +35,8 @@ class CarrierPidgeon : JavaPlugin() {
                     "/character/{id}" bind PATCH to Authenticated(authenticator).then(characterHandler::patch),
                     "/character/{id}" bind PUT to Authenticated(authenticator).then(characterHandler::put),
                     "/items" bind GET to itemsHandler::get,
-                    "/classes" bind GET to classesHandler::get
+                    "/classes" bind GET to classesHandler::get,
+                    "/races" bind GET to racesHandler::get
                 )
             )
         )

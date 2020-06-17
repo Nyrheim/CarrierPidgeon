@@ -11,7 +11,6 @@ import org.http4k.lens.BiDiMapping
 
 object PidgeonGson : ConfigurableGson(
     GsonBuilder()
-        .serializeNulls()
         .asConfigurable()
         .withStandardMappings()
         .withPidgeonMappings()
