@@ -10,7 +10,7 @@ data class ArmorCategoryDTO(
 ) {
     constructor(armorCategory: ArmorCategory) : this(
         armorCategory.getName(),
-        null,
-        null
+        armorCategory.donTime,
+        armorCategory.doffTime
     )
 }
