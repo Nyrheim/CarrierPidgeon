@@ -60,10 +60,8 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
             ?: return Response(INTERNAL_SERVER_ERROR)
                 .with(ErrorInfo.lens of ErrorInfo("Race service unavailable"))
         val characterRequest = CharacterPostRequest.lens(request)
-        if (characterRequest.firstName?.length ?: 0 > 64) return Response(BAD_REQUEST)
-            .with(ErrorInfo.lens of ErrorInfo("First name must not be longer than 64 characters"))
-        if (characterRequest.familyName?.length ?: 0 > 64) return Response(BAD_REQUEST)
-            .with(ErrorInfo.lens of ErrorInfo("Family name must not be longer than 64 characters"))
+        if (characterRequest.name?.length ?: 0 > 128) return Response(BAD_REQUEST)
+            .with(ErrorInfo.lens of ErrorInfo("Name must not be longer than 128 characters"))
         if (characterRequest.height?.length ?: 0 > 16) return Response(BAD_REQUEST)
             .with(ErrorInfo.lens of ErrorInfo("Height must not be longer than 16 characters"))
         if (characterRequest.weight?.length ?: 0 > 16) return Response(BAD_REQUEST)
@@ -97,8 +95,7 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
             penAndPaper,
             playerId
         )
-        character.firstName = characterRequest.firstName ?: ""
-        character.familyName = characterRequest.familyName ?: ""
+        character.name = characterRequest.name ?: ""
         character.height = characterRequest.height ?: ""
         character.weight = characterRequest.weight ?: ""
         character.appearance = characterRequest.appearance ?: ""
@@ -137,10 +134,8 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
         if (character.playerId != playerId)
             return Response(FORBIDDEN)
         val characterRequest = CharacterPutRequest.lens(request)
-        if (characterRequest.firstName?.length ?: 0 > 64) return Response(BAD_REQUEST)
+        if (characterRequest.name?.length ?: 0 > 128) return Response(BAD_REQUEST)
             .with(ErrorInfo.lens of ErrorInfo("First name must not be longer than 64 characters"))
-        if (characterRequest.familyName?.length ?: 0 > 64) return Response(BAD_REQUEST)
-            .with(ErrorInfo.lens of ErrorInfo("Family name must not be longer than 64 characters"))
         if (characterRequest.height?.length ?: 0 > 16) return Response(BAD_REQUEST)
             .with(ErrorInfo.lens of ErrorInfo("Height must not be longer than 16 characters"))
         if (characterRequest.weight?.length ?: 0 > 16) return Response(BAD_REQUEST)
@@ -172,8 +167,7 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
         }
         if (character.classes().isNotEmpty() && character.clazz(`class`) == null) return Response(BAD_REQUEST)
             .with(ErrorInfo.lens of ErrorInfo("Class locked to " + character.firstClass.name))
-        character.firstName = characterRequest.firstName ?: ""
-        character.familyName = characterRequest.familyName ?: ""
+        character.name = characterRequest.name ?: ""
         character.height = characterRequest.height ?: ""
         character.weight = characterRequest.weight ?: ""
         character.appearance = characterRequest.appearance ?: ""
@@ -210,10 +204,8 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
         if (character.playerId != playerId)
             return Response(FORBIDDEN)
         val characterRequest = CharacterPatchRequest.lens(request)
-        if (characterRequest.firstName?.length ?: 0 > 64) return Response(BAD_REQUEST)
-            .with(ErrorInfo.lens of ErrorInfo("First name must not be longer than 64 characters"))
-        if (characterRequest.familyName?.length ?: 0 > 64) return Response(BAD_REQUEST)
-            .with(ErrorInfo.lens of ErrorInfo("Family name must not be longer than 64 characters"))
+        if (characterRequest.name?.length ?: 0 > 128) return Response(BAD_REQUEST)
+            .with(ErrorInfo.lens of ErrorInfo("Name must not be longer than 64 characters"))
         if (characterRequest.height?.length ?: 0 > 16) return Response(BAD_REQUEST)
             .with(ErrorInfo.lens of ErrorInfo("Height must not be longer than 16 characters"))
         if (characterRequest.weight?.length ?: 0 > 16) return Response(BAD_REQUEST)
@@ -246,8 +238,7 @@ class CharacterHandler(private val plugin: CarrierPidgeon, private val authentic
         }
         if (character.classes().isNotEmpty() && character.clazz(`class`) == null) return Response(BAD_REQUEST)
             .with(ErrorInfo.lens of ErrorInfo("Class locked to " + character.firstClass.name))
-        character.firstName = characterRequest.firstName ?: character.firstName
-        character.familyName = characterRequest.familyName ?: character.familyName
+        character.name = characterRequest.name ?: character.name
         character.height = characterRequest.height ?: character.height
         character.weight = characterRequest.weight ?: character.weight
         character.appearance = characterRequest.appearance ?: character.appearance

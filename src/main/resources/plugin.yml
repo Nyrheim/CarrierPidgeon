@@ -7,3 +7,10 @@ api-version: 1.14
 depend:
 - PenAndPaper
 - BricksAndMortar
+- rpk-core-bukkit
+- rpk-player-lib-bukkit
+- rpk-permissions-lib-bukkit
+permissions:
+  carrierpidgeon.onbehalfof:
+    description: Allows performing actions on behalf of other players
+    default: op
